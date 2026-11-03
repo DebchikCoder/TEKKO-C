@@ -7,7 +7,7 @@ Player::Player(std::string pathToSprite, float acceleration, float decceleration
       m_accel = acceleration;
       m_deccel = decceleration;
       m_targetSpeed = MaxSpeed;
-      m_position = {0, 10};
+      m_position = {0, 50};
 }
 
 Player::~Player()
@@ -28,9 +28,6 @@ void Player::Update()
       float step = input != 0 ? m_accel : m_deccel;
 
       m_velocity.x = Util::Math::MoveTowards(m_velocity.x, target, step  * GetFrameTime());
-
-      std::cout << input << "\n";
-      std::cout << m_velocity.x << "\n";
 
       m_position.x += m_velocity.x;
 

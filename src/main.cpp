@@ -3,10 +3,10 @@
 
 int main(int, char**)
 {
-    InitWindow(800, 600, "PENIS");
+    InitWindow(800, 600, "TEKKO");
 
     //magic numbers i love them!
-    Player player("assets/Test.png", 3, 2, NUMtoSPEED(7.0f));
+    Player player("assets/Test.png", 2, 2, NUMtoSPEED(5.0f));
 
     while (!WindowShouldClose())
     {
