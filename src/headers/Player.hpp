@@ -1,22 +1,24 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
 #include <string>
+#include <raylib.h>
+#include "utils/Math.hpp"
+
+#define NUMtoSPEED(n) n/10.0f
 
 class Player
 {
 private:
-      sf::Sprite m_sprite;
-      sf::Texture m_texture;
+      Texture2D m_texture;
+      Vector2 m_position;
+      Vector2 m_velocity;
 
-      sf::Vector2f m_position;
-
-      float m_accel, m_deccel;
+      float m_accel, m_deccel, m_targetSpeed;
 public:
-      Player(std::string pathToSprite, float acceleration, float decceleration);
+      Player(std::string pathToSprite, float acceleration, float decceleration, float MaxSpeed);
       ~Player();
 
       void SetPosition(float x, float y);
-      void SetPosition(sf::Vector2f newPos);
+      void SetPosition(Vector2 newPos);
       void Update();
 };

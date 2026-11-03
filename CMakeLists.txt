@@ -1,32 +1,30 @@
-#its kind shit file i need to rework it
-
-cmake_minimum_required(VERSION 3.10.0)
-project(TEKKO VERSION 0.1.0 LANGUAGES C CXX)
-
+cmake_minimum_required(VERSION 4.5)
+project(TEKKO)
 set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-#set sfml dir
-set(SFML_DIR "C:/Users/artem/Desktop/c_projects/cmake/sfml/SFML-3.1.0/lib/cmake/SFML")
-find_package(SFML 3.1.0 COMPONENTS Graphics Window System REQUIRED)
+# Adding Raylib
+include(FetchContent)
+set(FETCHCONTENT_QUIET FALSE)
+set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE) # don't build the supplied examples
+set(BUILD_GAMES    OFF CACHE BOOL "" FORCE) # don't build the supplied example games
+set(GLFW_BUILD_WAYLAND ON CACHE BOOL "" FORCE) # enable wayland on linux
+set(GLFW_BUILD_X11 OFF CACHE BOOL "" FORCE) # disable x11 on linux (switch these settings around as you please)
 
-#setting source files
-
-set(SOURCES src/main.cpp src/Player.cpp src/utils/Math.cpp)
-set(HEADERS src/headers/Player.hpp src/headers/utils/Math.hpp)
-
-add_executable(TEKKO ${SOURCES} ${HEADERS})
-
-target_link_libraries(TEKKO PRIVATE SFML::Graphics SFML::Window SFML::System)
-
-# add dlls
-add_custom_command(TARGET TEKKO POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-    $<TARGET_RUNTIME_DLLS:TEKKO>
-    $<TARGET_FILE_DIR:TEKKO>
-    COMMAND_EXPAND_LISTS
+FetchContent_Declare(
+    raylib
+    GIT_REPOSITORY "https://github.com/raysan5/raylib.git"
+    GIT_TAG "master"
+    GIT_PROGRESS TRUE
 )
 
-include(CTest)
-enable_testing()
+FetchContent_MakeAvailable(raylib)
 
+# Declaring our executable
+add_executable(${PROJECT_NAME})
+target_sources(${PROJECT_NAME} PRIVATE src/main.cpp src/Player.cpp src/utils/Math.cpp)
+target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_INCLUDE})
+target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
+
+# Setting ASSETS_PATH
+target_compile_definitions(${PROJECT_NAME} PUBLIC ASSETS_PATH="${CMAKE_CURRENT_SOURCE_DIR}/assets/") # Set the asset path macro to the absolute path on the dev machine
+#target_compile_definitions(${PROJECT_NAME} PUBLIC ASSETS_PATH="./assets/") # Set the asset path macro in release mode to a relative path that assumes the assets folder is in the same directory as the 

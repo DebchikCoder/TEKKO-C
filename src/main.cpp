@@ -1,32 +1,22 @@
-#include <iostream>
-#include <SFML/Graphics.hpp>
+#include "raylib.h"
+#include "headers/Player.hpp"
 
 int main(int, char**)
 {
-    //creating window
-    sf::RenderWindow window(sf::VideoMode({1280, 960}), "TEKKO");
+    InitWindow(800, 600, "PENIS");
 
-    //creating circle
-    sf::CircleShape circle(50.0f);
-    circle.setFillColor(sf::Color::Green);
-    circle.setPosition({375.f, 275.f});
+    //magic numbers i love them!
+    Player player("assets/Test.png", 3, 2, NUMtoSPEED(7.0f));
 
-    //main loop
-    while(window.isOpen())
+    while (!WindowShouldClose())
     {
-        while (const std::optional<sf::Event> event = window.pollEvent())
-        {
-            if(event->is<sf::Event::Closed>())
-            {
-                window.close();
-            }
-        }
-
-        window.clear();
-        window.draw(circle);
-        window.display();
-        
+        BeginDrawing();
+            ClearBackground(BLUE);
+            player.Update();
+        EndDrawing();
     }
+    
+    CloseWindow();
 
     return 0;
 }
