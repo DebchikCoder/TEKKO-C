@@ -15,6 +15,7 @@ Player::~Player()
       m_position = {0, 0};
       m_accel = 0;
       m_deccel = 0;
+      UnloadTexture(m_texture);
 }
 
 void Player::Update()
@@ -27,9 +28,11 @@ void Player::Update()
       float target = input * m_targetSpeed;
       float step = input != 0 ? m_accel : m_deccel;
 
-      m_velocity.x = Util::Math::MoveTowards(m_velocity.x, target, step  * GetFrameTime());
+      m_velocity.x = Util::Math::MoveTowards(m_velocity.x, target, step * GetFrameTime());
 
-      m_position.x += m_velocity.x;
+      m_position.x += m_velocity.x * GetFrameTime();
 
+      std::cout << m_velocity.x << "\n";
+      
       DrawTexture(m_texture, static_cast<int>(m_position.x), static_cast<int>(m_position.y), WHITE);
 }

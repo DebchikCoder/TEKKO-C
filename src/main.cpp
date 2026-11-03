@@ -6,7 +6,7 @@ int main(int, char**)
     InitWindow(800, 600, "TEKKO");
 
     //magic numbers i love them!
-    Player player("assets/Test.png", 2, 2, NUMtoSPEED(5.0f));
+    Player player("assets/Test.png", NUMtoUNIT(15), NUMtoUNIT(12), NUMtoUNIT(12));
 
     while (!WindowShouldClose())
     {

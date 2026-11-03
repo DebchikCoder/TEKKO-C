@@ -4,7 +4,7 @@
 #include <raylib.h>
 #include "utils/Math.hpp"
 
-#define NUMtoSPEED(n) n/10.0f
+#define NUMtoUNIT(n) n * 16.0f // 16.0f is one tile size. Its needed for conversion
 
 class Player
 {
