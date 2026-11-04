@@ -20,5 +20,7 @@ public:
 
       void SetPosition(float x, float y);
       void SetPosition(Vector2 newPos);
+      Vector2 GetPosition();
       void Update();
+      void Draw();
 };

@@ -18,6 +18,16 @@ Player::~Player()
       UnloadTexture(m_texture);
 }
 
+void Player::SetPosition(Vector2 newPos)
+{
+      m_position = newPos;
+}
+
+Vector2 Player::GetPosition()
+{
+      return m_position;
+}
+
 void Player::Update()
 {
       bool isLeft, isRight;
@@ -32,7 +42,20 @@ void Player::Update()
 
       m_position.x += m_velocity.x * GetFrameTime();
 
-      std::cout << m_velocity.x << "\n";
-      
-      DrawTexture(m_texture, static_cast<int>(m_position.x), static_cast<int>(m_position.y), WHITE);
+      if(IsKeyDown(KEY_DOWN))
+      {
+            m_position.y += 40 * GetFrameTime();
+      }
+
+      if(IsKeyDown(KEY_UP))
+      {
+            m_position.y -= 40 * GetFrameTime();
+      }
+
+      // std::cout << m_velocity.x << "\n";
+}
+
+void Player::Draw()
+{
+      DrawTextureV(m_texture, m_position, WHITE);
 }
