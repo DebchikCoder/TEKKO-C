@@ -1,19 +1,16 @@
 #include "raylib.h"
-#include "headers/Player.hpp"
+#include "headers/Game.hpp"
 
 int main(int, char**)
 {
     InitWindow(800, 600, "TEKKO");
 
-    //magic numbers i love them!
-    Player player("assets/Test.png", NUMtoUNIT(15), NUMtoUNIT(12), NUMtoUNIT(12));
+    Game game;
+    game.Start();
 
     while (!WindowShouldClose())
     {
-        BeginDrawing();
-            ClearBackground(BLUE);
-            player.Update();
-        EndDrawing();
+        game.Update();
     }
     
     CloseWindow();
