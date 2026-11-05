@@ -10,8 +10,6 @@
 class Game
 {
 private:
-      //FIXME!: надо перенести в Level класс
-      std::vector<std::unique_ptr<IObject>> objects;
       Player m_player;
       Level lvl;
       Vector2 projPos;

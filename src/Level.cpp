@@ -82,11 +82,29 @@ void Level::LoadMap(std::string path)
 Level::Level(std::string path)
 {
       LoadMap(path);
+      totalObjects = 0;
 }
 
 Vector2 Level::GetPlayerStartPosition()
 {
       return playerStartPosition;
+}
+
+void Level::RegesterObject(std::unique_ptr<IObject> object)
+{
+      object->SetID(totalObjects);
+      totalObjects++;
+      objects.push_back(std::move(object));
+}
+
+void Level::DeleteObject(int id)
+{
+      objects.erase(objects.begin() + id);
+}
+
+std::vector<std::unique_ptr<IObject>> &Level::getObjects()
+{
+    return objects;
 }
 
 void Level::Draw()

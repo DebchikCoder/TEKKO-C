@@ -22,7 +22,7 @@ FetchContent_MakeAvailable(raylib)
 
 # Declaring our executable
 add_executable(${PROJECT_NAME})
-target_sources(${PROJECT_NAME} PRIVATE src/main.cpp src/Player.cpp src/utils/Math.cpp src/Game.cpp src/Object.cpp src/Level.cpp)
+target_sources(${PROJECT_NAME} PRIVATE src/main.cpp src/Player.cpp src/utils/Math.cpp src/Game.cpp src/Object.cpp src/Level.cpp src/Projectile.cpp)
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
 

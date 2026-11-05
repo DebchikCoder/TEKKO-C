@@ -9,8 +9,8 @@ Game::Game() : m_player("assets/Test.png", NUMtoUNIT(15), NUMtoUNIT(12), NUMtoUN
 
 void Game::Start()
 {
-      objects.push_back(std::make_unique<IObject>(Vector2{40, 40}, "assets/Test.png", 40, 40, 80, 80));
       projPos = m_player.GetPosition();
+      lvl.RegesterObject(std::make_unique<IObject>(Vector2{40, 40}, "assets/Test.png", 40, 40, 80, 80));
 }
 
 void Game::Update()

@@ -17,6 +17,11 @@ void IObject::Draw()
       DrawTexture(m_texture, static_cast<int>(m_position.x), static_cast<int>(m_position.y), WHITE);
 }
 
+void IObject::SetID(int id)
+{
+      m_id = id;
+}
+
 Vector2 IObject::getPosition()
 {
       return m_position;
@@ -30,6 +35,11 @@ Texture2D IObject::getTexture()
 Rectangle IObject::getHitBox()
 {
       return m_hitBox;
+}
+
+int IObject::getID()
+{
+    return m_id;
 }
 
 IObject::~IObject()
