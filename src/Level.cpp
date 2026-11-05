@@ -21,9 +21,10 @@ Rectangle Level::tsonRectToRayLib(tson::Rect rect)
 void Level::LoadMap(std::string path)
 {
       tson::Tileson t;
-      std::unique_ptr<tson::Map> map = t.parse(path);
+      std::unique_ptr<tson::Map> map = t.parse(path); //parsing map
       if(map->getStatus() == tson::ParseStatus::OK)
       {
+            //loading TileSet image
             tson::Tileset* tileset = map->getTileset("Test_set");
             fs::path imgPath = fs::path(path).parent_path() / tileset->getImagePath();
 
@@ -31,6 +32,7 @@ void Level::LoadMap(std::string path)
 
             m_Tiles = LoadTexture(imgPathStr.c_str());
 
+            //get layer data
             for(auto& l : map->getLayers())
             {
                   if(l.getType() == tson::LayerType::TileLayer)
@@ -41,6 +43,7 @@ void Level::LoadMap(std::string path)
                         layer.alpha = (uint8_t)(l.getOpacity() * 255.0f);
                         layer.isVisible = l.isVisible();
 
+                        //loading Tiles
                         for(auto[gPos, tileObj] : l.getTileObjects())
                         {
                               layer.tiles.push_back((Tile){tsonVecToRayLib(tileObj.getPosition()), tsonRectToRayLib(tileObj.getDrawingRect())});
@@ -49,6 +52,7 @@ void Level::LoadMap(std::string path)
                         tileLayers.push_back(std::move(layer));
                   }
 
+                  //loading Objects
                   if(l.getType() == tson::LayerType::ObjectGroup)
                   {
                         tson::Object* player = l.firstObj("PlayerStart");
@@ -70,7 +74,7 @@ void Level::LoadMap(std::string path)
 
             if(map->getStatus() == tson::ParseStatus::MissingData)
             {
-                  std::cout << "ERROR" << " " << "File data is missing" << "\n";
+                  std::cout << "ERROR" << " " << "File is missing" << "\n";
             }
       }
 }

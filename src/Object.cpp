@@ -9,7 +9,7 @@ IObject::IObject(Vector2 position, std::string TexturePath, float BBx, float BBy
 
 void IObject::Update(float dt)
 {
-      DrawText("add behaviour!", 0, 10, 5, RED);
+      DrawText("add behaviour!", 0, 10, 25, RED);
 }
 
 void IObject::Draw()

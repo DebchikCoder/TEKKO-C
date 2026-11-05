@@ -28,6 +28,11 @@ Vector2 Player::GetPosition()
       return m_position;
 }
 
+Vector2 Player::GetVelocity()
+{
+    return m_velocity;
+}
+
 void Player::Update()
 {
       bool isLeft, isRight;

@@ -14,6 +14,7 @@ private:
       std::vector<std::unique_ptr<IObject>> objects;
       Player m_player;
       Level lvl;
+      Vector2 projPos;
 
       Camera2D m_cam;
 public:
