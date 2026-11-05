@@ -9,17 +9,17 @@ protected:
       Vector2 m_position;
       Texture2D m_texture;
 
-      Rectangle m_hitBox;
+      bool m_isDead;
 
-      int m_id;
+      Rectangle m_hitBox;
 public:
       IObject(Vector2 position, std::string TexturePath, float BBx, float BBy, float BBw, float BBh);
       virtual void Update(float dt);
       virtual void Draw();
-      void SetID(int id);
+      void Destroy();
+      bool isDead();
       Vector2 getPosition();
       Texture2D getTexture();
       Rectangle getHitBox();
-      int getID();
       virtual ~IObject();
 };

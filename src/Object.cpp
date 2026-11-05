@@ -5,6 +5,7 @@ IObject::IObject(Vector2 position, std::string TexturePath, float BBx, float BBy
       m_position = position;
       m_hitBox = (Rectangle){BBx, BBy, BBw, BBh};
       m_texture = LoadTexture(TexturePath.c_str());
+      m_isDead = false;
 }
 
 void IObject::Update(float dt)
@@ -17,9 +18,14 @@ void IObject::Draw()
       DrawTexture(m_texture, static_cast<int>(m_position.x), static_cast<int>(m_position.y), WHITE);
 }
 
-void IObject::SetID(int id)
+void IObject::Destroy()
 {
-      m_id = id;
+      m_isDead = true;
+}
+
+bool IObject::isDead()
+{
+      return m_isDead;
 }
 
 Vector2 IObject::getPosition()
@@ -35,11 +41,6 @@ Texture2D IObject::getTexture()
 Rectangle IObject::getHitBox()
 {
       return m_hitBox;
-}
-
-int IObject::getID()
-{
-    return m_id;
 }
 
 IObject::~IObject()

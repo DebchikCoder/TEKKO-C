@@ -92,14 +92,12 @@ Vector2 Level::GetPlayerStartPosition()
 
 void Level::RegesterObject(std::unique_ptr<IObject> object)
 {
-      object->SetID(totalObjects);
-      totalObjects++;
       objects.push_back(std::move(object));
 }
 
-void Level::DeleteObject(int id)
+void Level::RemoveDeadObjects()
 {
-      objects.erase(objects.begin() + id);
+      std::erase_if(objects, [](const std::unique_ptr<IObject>& o){return o->isDead();});
 }
 
 std::vector<std::unique_ptr<IObject>> &Level::getObjects()

@@ -40,7 +40,7 @@ public:
       Level(std::string path);
       Vector2 GetPlayerStartPosition();
       void RegesterObject(std::unique_ptr<IObject> object);
-      void DeleteObject(int id);
+      void RemoveDeadObjects();
       std::vector<std::unique_ptr<IObject>>& getObjects();
       void Draw();
       ~Level() = default;
