@@ -27,6 +27,7 @@ private:
 
       std::vector<TileLayer> tileLayers;
       std::vector<std::unique_ptr<IObject>> objects;
+      std::vector<std::unique_ptr<IObject>> spawnedObjects; //сначало объекты спавнятся там, нужен для предотврощения утечек памяти
 
       void LoadMap(std::string path);
 
@@ -41,6 +42,7 @@ public:
       Vector2 GetPlayerStartPosition();
       void RegesterObject(std::unique_ptr<IObject> object);
       void RemoveDeadObjects();
+      void AcceptObjects();
       std::vector<std::unique_ptr<IObject>>& getObjects();
       void Draw();
       ~Level() = default;

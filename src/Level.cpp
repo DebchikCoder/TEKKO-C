@@ -92,12 +92,21 @@ Vector2 Level::GetPlayerStartPosition()
 
 void Level::RegesterObject(std::unique_ptr<IObject> object)
 {
-      objects.push_back(std::move(object));
+      spawnedObjects.push_back(std::move(object));
 }
 
 void Level::RemoveDeadObjects()
 {
       std::erase_if(objects, [](const std::unique_ptr<IObject>& o){return o->isDead();});
+}
+
+void Level::AcceptObjects()
+{
+      for(auto& o : spawnedObjects)
+      {
+            objects.push_back(std::move(o));
+      }
+      spawnedObjects.clear();
 }
 
 std::vector<std::unique_ptr<IObject>> &Level::getObjects()

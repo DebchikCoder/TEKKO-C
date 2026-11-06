@@ -18,6 +18,12 @@ Player::~Player()
       UnloadTexture(m_texture);
 }
 
+void Player::SetPosition(float x, float y)
+{
+      m_position.x = x;
+      m_position.y = y;
+}
+
 void Player::SetPosition(Vector2 newPos)
 {
       m_position = newPos;
@@ -33,7 +39,18 @@ Vector2 Player::GetVelocity()
     return m_velocity;
 }
 
-void Player::Update()
+std::unique_ptr<Projectile> Player::Shoot(Camera2D &cam, float speed)
+{
+      Vector2 mouseScrPos = GetScreenToWorld2D(GetMousePosition(), cam);
+      Vector2 projDir = Vector2Normalize(Vector2Subtract(mouseScrPos, m_position));
+      Vector2 projVector = Vector2Scale(projDir, speed);
+
+      std::unique_ptr<Projectile> Bullet = std::make_unique<Projectile>(m_position, projVector, "assets/Bullet.png", speed, 4, (Vector2){16, 16});
+
+      return Bullet;
+}
+
+void Player::Update(Camera2D& cam)
 {
       bool isLeft, isRight;
       isLeft = IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_A);

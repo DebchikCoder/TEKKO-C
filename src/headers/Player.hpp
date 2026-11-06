@@ -2,7 +2,11 @@
 
 #include <string>
 #include <raylib.h>
+#include <raymath.h>
+#include <memory>
+#include "Object.hpp"
 #include "utils/Math.hpp"
+#include "Projectile.hpp"
 
 #define NUMtoUNIT(n) n * 16.0f // 16.0f is one tile size. Its needed for conversion
 
@@ -22,6 +26,7 @@ public:
       void SetPosition(Vector2 newPos);
       Vector2 GetPosition();
       Vector2 GetVelocity();
-      void Update();
+      std::unique_ptr<Projectile> Shoot(Camera2D& cam, float speed);
+      void Update(Camera2D& cam);
       void Draw();
 };

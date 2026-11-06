@@ -3,7 +3,7 @@
 
 Game::Game() : m_player("assets/Test.png", NUMtoUNIT(15), NUMtoUNIT(12), NUMtoUNIT(12)), lvl("assets/Levels/Test/level.json")
 {
-      m_player.SetPosition(lvl.GetPlayerStartPosition());
+      m_player.SetPosition(lvl.GetPlayerStartPosition().x - (48/2), lvl.GetPlayerStartPosition().y - (78/2));
       m_cam = {0};
 }
 
@@ -15,31 +15,18 @@ void Game::Start()
 
 void Game::Update()
 {
-      Vector2 projVec;
-      Vector2 mousePos;
-      Vector2 scrMousePos;
-      if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
-      {
-            mousePos = GetMousePosition();
-            scrMousePos = GetScreenToWorld2D(mousePos, m_cam);
-
-            Vector2 Dir = Vector2Subtract(scrMousePos, m_player.GetPosition());
-
-            Vector2 nDir = Vector2Normalize(Dir);
-
-            float speed = 30.0f;
-            projVec = Vector2Scale(nDir, speed);
-      }
-
-      projPos.x += projVec.x * GetFrameTime();
-      projPos.y += projVec.y * GetFrameTime();
-
       for(auto& obj : lvl.getObjects())
       {
             obj->Update(GetFrameTime());
       }
-      m_player.Update();
+      m_player.Update(m_cam);
 
+      if(IsMouseButtonDown(MOUSE_LEFT_BUTTON))
+      {
+            lvl.RegesterObject(m_player.Shoot(m_cam, NUMtoUNIT(10.0f)));
+      }
+
+      lvl.AcceptObjects();
       lvl.RemoveDeadObjects();
 
       m_cam.target = (Vector2){m_player.GetPosition().x, m_player.GetPosition().y};
@@ -60,6 +47,6 @@ void Game::Update()
             EndMode2D();
             DrawText(TextFormat("player vel: X: %f, Y: %f", m_player.GetVelocity().x, m_player.GetVelocity().y), 0, 30, 25, BLACK);
             DrawText(TextFormat("player pos: X: %f, Y: %f", m_player.GetPosition().x, m_player.GetPosition().y), 0, 50, 25, BLACK);
-            DrawText(TextFormat("mouse pos: X: %f, Y: %f", mousePos.x, mousePos.y), 0, 70, 25, BLACK);
+            DrawText(TextFormat("FPS: %d", GetFPS()), 0, 70, 25, BLACK);
       EndDrawing();
 }
