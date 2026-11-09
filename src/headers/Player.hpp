@@ -7,6 +7,7 @@
 #include "Object.hpp"
 #include "utils/Math.hpp"
 #include "Projectile.hpp"
+#include <vector>
 
 #define NUMtoUNIT(n) n * 16.0f // 16.0f is one tile size. Its needed for conversion
 
@@ -31,6 +32,6 @@ public:
       Vector2 GetPosition();
       Vector2 GetVelocity();
       std::unique_ptr<Projectile> Shoot(Camera2D& cam, float speed);
-      void Update(Camera2D& cam);
+      void Update(Camera2D& cam, std::vector<Rectangle> collisionRecs);
       void Draw();
 };

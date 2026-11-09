@@ -14,19 +14,11 @@ void Game::Start()
 
 void Game::Update()
 {
-      bool resutl = false;
       for(auto& obj : lvl.getObjects())
       {
             obj->Update(GetFrameTime());
       }
-      m_player.Update(m_cam);
-      for(auto& r : lvl.GetCollisions())
-      {
-            if(m_player.CheckCollision(r))
-            {
-                  resutl = true;
-            }
-      }
+      m_player.Update(m_cam, lvl.GetCollisions());
 
       if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
       {
@@ -50,12 +42,10 @@ void Game::Update()
                         obj->Draw();
                   }
                   m_player.Draw();
-                  m_player.DrawCollisionRect();
                   lvl.DrawDebugRects();
             EndMode2D();
             DrawText(TextFormat("player vel: X: %f, Y: %f", m_player.GetVelocity().x, m_player.GetVelocity().y), 0, 30, 25, BLACK);
             DrawText(TextFormat("player pos: X: %f, Y: %f", m_player.GetPosition().x, m_player.GetPosition().y), 0, 50, 25, BLACK);
-            DrawText(resutl ? "PENIS" : "PUSSY", 0, 70, 25, BLACK);
             DrawText(TextFormat("FPS: %d", GetFPS()), 0, 90, 25, BLACK);
       EndDrawing();
 }

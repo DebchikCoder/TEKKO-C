@@ -8,7 +8,6 @@ Player::Player(std::string pathToSprite, float acceleration, float decceleration
       m_deccel = decceleration;
       m_targetSpeed = MaxSpeed;
       m_position = {0, 50};
-      m_collider = (Rectangle){m_position.x, m_position.y, 32, 64};
 }
 
 Player::~Player()
@@ -28,11 +27,6 @@ void Player::SetPosition(float x, float y)
 void Player::SetPosition(Vector2 newPos)
 {
       m_position = newPos;
-}
-
-void Player::DrawCollisionRect()
-{
-      DrawRectangleLinesEx(m_collider, 2, BLACK);
 }
 
 bool Player::CheckCollision(Rectangle &rec)
@@ -65,9 +59,9 @@ std::unique_ptr<Projectile> Player::Shoot(Camera2D &cam, float speed)
       return Bullet;
 }
 
-void Player::Update(Camera2D& cam)
+void Player::Update(Camera2D& cam, std::vector<Rectangle> collisionRecs)
 {
-      m_collider = (Rectangle){m_position.x, m_position.y, 32, 64};
+      //move player Left or Right
       bool isLeft, isRight;
       isLeft = IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_A);
       isRight = IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_D);
@@ -80,15 +74,42 @@ void Player::Update(Camera2D& cam)
 
       m_position.x += m_velocity.x * GetFrameTime();
 
+      //Move Up or Down
       if(IsKeyDown(KEY_DOWN))
       {
-            m_position.y += 40 * GetFrameTime();
+            m_velocity.y += 8000 * GetFrameTime();
       }
 
       if(IsKeyDown(KEY_UP))
       {
-            m_position.y -= 40 * GetFrameTime();
+            m_velocity.y -= 8000 * GetFrameTime();
       }
+
+      //Check Collision X
+      m_collider = (Rectangle){m_position.x, m_position.y, 32, 62};
+
+      for(auto r : collisionRecs)
+      {
+            if(CheckCollision(r))
+            {
+                  m_position.x -= m_velocity.x * GetFrameTime();
+                  m_velocity.x = 0;
+            }
+      }
+
+      //Check Collision y
+      m_position.y += m_velocity.y * GetFrameTime();
+      m_collider = (Rectangle){m_position.x, m_position.y, 32, 62};
+
+      for(auto r : collisionRecs)
+      {
+            if(CheckCollision(r))
+            {
+                  m_position.y -= m_velocity.y * GetFrameTime();
+            }
+      }
+
+      m_velocity.y = 0;
 
       // std::cout << m_velocity.x << "\n";
 }
