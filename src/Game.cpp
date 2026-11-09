@@ -9,17 +9,24 @@ Game::Game() : m_player("assets/Test.png", NUMtoUNIT(15), NUMtoUNIT(12), NUMtoUN
 
 void Game::Start()
 {
-      projPos = m_player.GetPosition();
       lvl.RegesterObject(std::make_unique<IObject>(Vector2{40, 40}, "assets/Test.png", 40, 40, 80, 80));
 }
 
 void Game::Update()
 {
+      bool resutl = false;
       for(auto& obj : lvl.getObjects())
       {
             obj->Update(GetFrameTime());
       }
       m_player.Update(m_cam);
+      for(auto& r : lvl.GetCollisions())
+      {
+            if(m_player.CheckCollision(r))
+            {
+                  resutl = true;
+            }
+      }
 
       if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
       {
@@ -43,10 +50,12 @@ void Game::Update()
                         obj->Draw();
                   }
                   m_player.Draw();
+                  m_player.DrawCollisionRect();
                   lvl.DrawDebugRects();
             EndMode2D();
             DrawText(TextFormat("player vel: X: %f, Y: %f", m_player.GetVelocity().x, m_player.GetVelocity().y), 0, 30, 25, BLACK);
             DrawText(TextFormat("player pos: X: %f, Y: %f", m_player.GetPosition().x, m_player.GetPosition().y), 0, 50, 25, BLACK);
-            DrawText(TextFormat("FPS: %d", GetFPS()), 0, 70, 25, BLACK);
+            DrawText(resutl ? "PENIS" : "PUSSY", 0, 70, 25, BLACK);
+            DrawText(TextFormat("FPS: %d", GetFPS()), 0, 90, 25, BLACK);
       EndDrawing();
 }

@@ -8,6 +8,7 @@ Player::Player(std::string pathToSprite, float acceleration, float decceleration
       m_deccel = decceleration;
       m_targetSpeed = MaxSpeed;
       m_position = {0, 50};
+      m_collider = (Rectangle){m_position.x, m_position.y, 32, 64};
 }
 
 Player::~Player()
@@ -27,6 +28,20 @@ void Player::SetPosition(float x, float y)
 void Player::SetPosition(Vector2 newPos)
 {
       m_position = newPos;
+}
+
+void Player::DrawCollisionRect()
+{
+      DrawRectangleLinesEx(m_collider, 2, BLACK);
+}
+
+bool Player::CheckCollision(Rectangle &rec)
+{
+    if(CheckCollisionRecs(m_collider, rec))
+    {
+      return true;
+    }
+    return false;
 }
 
 Vector2 Player::GetPosition()
@@ -52,6 +67,7 @@ std::unique_ptr<Projectile> Player::Shoot(Camera2D &cam, float speed)
 
 void Player::Update(Camera2D& cam)
 {
+      m_collider = (Rectangle){m_position.x, m_position.y, 32, 64};
       bool isLeft, isRight;
       isLeft = IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_A);
       isRight = IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_D);

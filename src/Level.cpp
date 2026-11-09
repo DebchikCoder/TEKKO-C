@@ -54,7 +54,8 @@ void Level::LoadMap(std::string path)
                                     Rectangle rect;
                                     Vector2 xyRect = tsonVecToRayLib(tileObj.getPosition());
                                     Vector2 whRect = tsonVecToRayLib(colObj.getSize());
-                                    rect = (Rectangle){xyRect.x, xyRect.y, whRect.x, whRect.y};
+                                    Vector2 colOff = tsonVecToRayLib(colObj.getPosition());
+                                    rect = (Rectangle){xyRect.x + colOff.x, xyRect.y + colOff.y, whRect.x, whRect.y};
                                     m_collisionBoxes.push_back(rect);
                               }
                               layer.tiles.push_back((Tile){tsonVecToRayLib(tileObj.getPosition()), tsonRectToRayLib(tileObj.getDrawingRect())});
@@ -125,7 +126,7 @@ void Level::DrawDebugRects()
 {
       for(auto obj : m_collisionBoxes)
       {
-            DrawRectangleLinesEx(obj, 3, PURPLE);
+            DrawRectangleLinesEx(obj, 1, PURPLE);
       }
 }
 
