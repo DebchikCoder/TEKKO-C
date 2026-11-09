@@ -14,7 +14,7 @@ Vector2 Level::tsonVecToRayLib(tson::Vector2i vec)
 
 Rectangle Level::tsonRectToRayLib(tson::Rect rect)
 {
-      Rectangle newRec = (Rectangle){rect.x, rect.y, rect.width, rect.height};
+      Rectangle newRec = (Rectangle){static_cast<float>(rect.x), static_cast<float>(rect.y), static_cast<float>(rect.width), static_cast<float>(rect.height)};
       return newRec;
 }
 
@@ -46,6 +46,17 @@ void Level::LoadMap(std::string path)
                         //loading Tiles
                         for(auto[gPos, tileObj] : l.getTileObjects())
                         {
+                              //loading collisions
+                              auto tileLayer = tileObj.getTile();
+                              auto col = tileLayer->getObjectgroup();
+                              for(auto colObj : col.getObjects())
+                              {
+                                    Rectangle rect;
+                                    Vector2 xyRect = tsonVecToRayLib(tileObj.getPosition());
+                                    Vector2 whRect = tsonVecToRayLib(colObj.getSize());
+                                    rect = (Rectangle){xyRect.x, xyRect.y, whRect.x, whRect.y};
+                                    m_collisionBoxes.push_back(rect);
+                              }
                               layer.tiles.push_back((Tile){tsonVecToRayLib(tileObj.getPosition()), tsonRectToRayLib(tileObj.getDrawingRect())});
                         }
 
@@ -77,6 +88,7 @@ void Level::LoadMap(std::string path)
                   std::cout << "ERROR" << " " << "File is missing" << "\n";
             }
       }
+      TraceLog(LOG_INFO, TextFormat("collision Recs: %d", m_collisionBoxes.size()));
 }
 
 Level::Level(std::string path)
@@ -109,9 +121,22 @@ void Level::AcceptObjects()
       spawnedObjects.clear();
 }
 
+void Level::DrawDebugRects()
+{
+      for(auto obj : m_collisionBoxes)
+      {
+            DrawRectangleLinesEx(obj, 3, PURPLE);
+      }
+}
+
 std::vector<std::unique_ptr<IObject>> &Level::getObjects()
 {
     return objects;
+}
+
+std::vector<Rectangle> &Level::GetCollisions()
+{
+      return m_collisionBoxes;
 }
 
 void Level::Draw()

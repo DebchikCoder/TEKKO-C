@@ -21,7 +21,7 @@ void Game::Update()
       }
       m_player.Update(m_cam);
 
-      if(IsMouseButtonDown(MOUSE_LEFT_BUTTON))
+      if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
       {
             lvl.RegesterObject(m_player.Shoot(m_cam, NUMtoUNIT(10.0f)));
       }
@@ -38,12 +38,12 @@ void Game::Update()
             ClearBackground(BLUE);
             BeginMode2D(m_cam);
                   lvl.Draw();
-                  DrawCircle(projPos.x, projPos.y, 10, RED);
                   for(auto& obj : lvl.getObjects())
                   {
                         obj->Draw();
                   }
                   m_player.Draw();
+                  lvl.DrawDebugRects();
             EndMode2D();
             DrawText(TextFormat("player vel: X: %f, Y: %f", m_player.GetVelocity().x, m_player.GetVelocity().y), 0, 30, 25, BLACK);
             DrawText(TextFormat("player pos: X: %f, Y: %f", m_player.GetPosition().x, m_player.GetPosition().y), 0, 50, 25, BLACK);

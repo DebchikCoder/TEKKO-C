@@ -16,7 +16,7 @@ private:
       {
             std::string name;
             float paralaxFactor;
-            int8_t alpha;
+            uint8_t alpha;
             bool isVisible;
             std::vector<Tile> tiles;
       };
@@ -28,6 +28,7 @@ private:
       std::vector<TileLayer> tileLayers;
       std::vector<std::unique_ptr<IObject>> objects;
       std::vector<std::unique_ptr<IObject>> spawnedObjects; //сначало объекты спавнятся там, нужен для предотврощения утечек памяти
+      std::vector<Rectangle> m_collisionBoxes;
 
       void LoadMap(std::string path);
 
@@ -43,7 +44,9 @@ public:
       void RegesterObject(std::unique_ptr<IObject> object);
       void RemoveDeadObjects();
       void AcceptObjects();
+      void DrawDebugRects();
       std::vector<std::unique_ptr<IObject>>& getObjects();
+      std::vector<Rectangle>& GetCollisions();
       void Draw();
       ~Level() = default;
 };
