@@ -1,13 +1,17 @@
 #include "headers/Player.hpp"
 #include <iostream>
 
-Player::Player(std::string pathToSprite, float acceleration, float decceleration, float MaxSpeed)
+Player::Player(std::string pathToSprite, float acceleration, float decceleration, float MaxSpeed, float gravity)
 {
       m_texture = LoadTexture(pathToSprite.c_str());
       m_accel = acceleration;
       m_deccel = decceleration;
+      m_gravity = gravity;
       m_targetSpeed = MaxSpeed;
       m_position = {0, 50};
+      m_velocity = {0, 0};
+      isGrounded = false;
+      jumpCount = 1;
 }
 
 Player::~Player()
@@ -63,6 +67,7 @@ void Player::Update(Camera2D& cam, std::vector<Rectangle> collisionRecs)
 {
       //move player Left or Right
       bool isLeft, isRight;
+      isGrounded = false;
       isLeft = IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_A);
       isRight = IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_D);
 
@@ -71,19 +76,9 @@ void Player::Update(Camera2D& cam, std::vector<Rectangle> collisionRecs)
       float step = input != 0 ? m_accel : m_deccel;
 
       m_velocity.x = Util::Math::MoveTowards(m_velocity.x, target, step * GetFrameTime());
+      m_velocity.y += m_gravity * GetFrameTime();
 
       m_position.x += m_velocity.x * GetFrameTime();
-
-      //Move Up or Down
-      if(IsKeyDown(KEY_DOWN))
-      {
-            m_velocity.y += 8000 * GetFrameTime();
-      }
-
-      if(IsKeyDown(KEY_UP))
-      {
-            m_velocity.y -= 8000 * GetFrameTime();
-      }
 
       //Check Collision X
       m_collider = (Rectangle){m_position.x, m_position.y, 32, 62};
@@ -106,10 +101,21 @@ void Player::Update(Camera2D& cam, std::vector<Rectangle> collisionRecs)
             if(CheckCollision(r))
             {
                   m_position.y -= m_velocity.y * GetFrameTime();
+                  isGrounded = true;
+                  m_velocity.y = 0;
+                  jumpCount = 1;
             }
       }
 
-      m_velocity.y = 0;
+      if(IsKeyPressed(KEY_SPACE) && isGrounded || IsKeyPressed(KEY_SPACE) && jumpCount > 0)
+      {
+            m_velocity.y = NUMtoUNIT(-10);
+            if(!isGrounded)
+            {
+                  jumpCount -= 1;
+                  m_velocity.y = NUMtoUNIT(-10);
+            }
+      }
 
       // std::cout << m_velocity.x << "\n";
 }

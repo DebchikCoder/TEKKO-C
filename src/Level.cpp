@@ -20,6 +20,7 @@ Rectangle Level::tsonRectToRayLib(tson::Rect rect)
 
 void Level::LoadMap(std::string path)
 {
+      TraceLog(LOG_INFO, "LOADING LEVEL: %s", path.c_str());
       tson::Tileson t;
       std::unique_ptr<tson::Map> map = t.parse(path); //parsing map
       if(map->getStatus() == tson::ParseStatus::OK)
@@ -71,22 +72,23 @@ void Level::LoadMap(std::string path)
                         playerStartPosition = tsonVecToRayLib(player->getPosition());
                   }
             }
+            TraceLog(LOG_INFO, "LEVEL LOADED SUCCESFULY\n");
       }
       else
       {
             if(map->getStatus() == tson::ParseStatus::FileNotFound)
             {
-                  std::cout << "ERROR" << " " << "File not found!" << "\n";
+                  TraceLog(LOG_ERROR, "FILE NOT FOUND\n");
             }
 
             if(map->getStatus() == tson::ParseStatus::ParseError)
             {
-                  std::cout << "ERROR" << " " << "Error in parsing code" << "\n";
+                  TraceLog(LOG_ERROR, "FILE PARSE ERROR\n");
             }
 
             if(map->getStatus() == tson::ParseStatus::MissingData)
             {
-                  std::cout << "ERROR" << " " << "File is missing" << "\n";
+                  TraceLog(LOG_ERROR, "ONE OR MORE FILES IS MISSING\n");
             }
       }
       TraceLog(LOG_INFO, TextFormat("collision Recs: %d", m_collisionBoxes.size()));

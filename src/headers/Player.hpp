@@ -9,7 +9,10 @@
 #include "Projectile.hpp"
 #include <vector>
 
-#define NUMtoUNIT(n) n * 16.0f // 16.0f is one tile size. Its needed for conversion
+constexpr float NUMtoUNIT(float n)
+{
+    return n * 16.0f;
+}
 
 class Player
 {
@@ -18,11 +21,14 @@ private:
       Vector2 m_position;
       Vector2 m_velocity;
 
-      Rectangle m_collider;
+      int8_t jumpCount;
 
-      float m_accel, m_deccel, m_targetSpeed;
+      Rectangle m_collider;
+      bool isGrounded;
+
+      float m_accel, m_deccel, m_targetSpeed, m_gravity;
 public:
-      Player(std::string pathToSprite, float acceleration, float decceleration, float MaxSpeed);
+      Player(std::string pathToSprite, float acceleration, float decceleration, float MaxSpeed, float gravity);
       ~Player();
 
       void SetPosition(float x, float y);

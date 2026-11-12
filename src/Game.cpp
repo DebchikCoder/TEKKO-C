@@ -1,7 +1,7 @@
 #include "headers/Game.hpp"
 #include <raymath.h>
 
-Game::Game() : m_player("assets/Test.png", NUMtoUNIT(15), NUMtoUNIT(12), NUMtoUNIT(12)), lvl("assets/Levels/Test/level.json")
+Game::Game() : m_player("assets/Test.png", NUMtoUNIT(15), NUMtoUNIT(12), NUMtoUNIT(12), NUMtoUNIT(9.81)), lvl("assets/Levels/Test/level.json")
 {
       m_player.SetPosition(lvl.GetPlayerStartPosition().x - (48/2), lvl.GetPlayerStartPosition().y - (78/2));
       m_cam = {0};
