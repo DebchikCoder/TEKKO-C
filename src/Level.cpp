@@ -64,6 +64,14 @@ void Level::LoadMap(std::string path)
 
                         tileLayers.push_back(std::move(layer));
                   }
+                  //loading backGround
+                  if(l.getType() == tson::LayerType::ImageLayer)
+                  {
+                        fs::path BGpath = fs::path(path).parent_path() / l.getImage();
+                        std::string strBGpath = BGpath.string();
+                        BackGround* bg = new BackGround(LoadTexture(strBGpath.c_str()));
+                        m_BGs.push_back(std::move(bg));
+                  }
 
                   //loading Objects
                   if(l.getType() == tson::LayerType::ObjectGroup)
@@ -130,6 +138,30 @@ void Level::DrawDebugRects()
       {
             DrawRectangleLinesEx(obj, 1, PURPLE);
       }
+}
+
+void Level::DrawBG()
+{
+      for(auto& img : m_BGs)
+      {
+            img->Draw();
+      }
+}
+
+void Level::DrawBG(float scaleFactor)
+{
+      for(auto& img : m_BGs)
+      {
+            img->Draw(scaleFactor);
+      }
+}
+
+void Level::DrawBG(float scaleX, float scaleY)
+{
+     for(auto& img : m_BGs)
+      {
+            img->Draw(scaleX, scaleY);
+      } 
 }
 
 std::vector<std::unique_ptr<IObject>> &Level::getObjects()

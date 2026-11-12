@@ -1,5 +1,6 @@
 #pragma once
 #include "thirdParty/tileson.hpp"
+#include "BackGround.hpp"
 #include "Object.hpp"
 #include <raylib.h>
 
@@ -29,6 +30,7 @@ private:
       std::vector<std::unique_ptr<IObject>> objects;
       std::vector<std::unique_ptr<IObject>> spawnedObjects; //сначало объекты спавнятся там, нужен для предотврощения утечек памяти
       std::vector<Rectangle> m_collisionBoxes;
+      std::vector<BackGround*> m_BGs;
 
       void LoadMap(std::string path);
 
@@ -45,6 +47,9 @@ public:
       void RemoveDeadObjects();
       void AcceptObjects();
       void DrawDebugRects();
+      void DrawBG();
+      void DrawBG(float scaleFactor);
+      void DrawBG(float scaleX, float scaleY);
       std::vector<std::unique_ptr<IObject>>& getObjects();
       std::vector<Rectangle>& GetCollisions();
       void Draw();

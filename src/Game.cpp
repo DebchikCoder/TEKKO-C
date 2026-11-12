@@ -35,6 +35,7 @@ void Game::Update()
 
       BeginDrawing();
             ClearBackground(BLUE);
+            lvl.DrawBG(2.5f, 2.8f);
             BeginMode2D(m_cam);
                   lvl.Draw();
                   for(auto& obj : lvl.getObjects())
@@ -44,8 +45,8 @@ void Game::Update()
                   m_player.Draw();
                   lvl.DrawDebugRects();
             EndMode2D();
-            DrawText(TextFormat("player vel: X: %f, Y: %f", m_player.GetVelocity().x, m_player.GetVelocity().y), 0, 30, 25, BLACK);
-            DrawText(TextFormat("player pos: X: %f, Y: %f", m_player.GetPosition().x, m_player.GetPosition().y), 0, 50, 25, BLACK);
+            DrawText(TextFormat("player vel: X: %f, Y: %f", m_player.GetVelocity().x, m_player.GetVelocity().y), 0, 30, 25, BLUE);
+            DrawText(TextFormat("player pos: X: %f, Y: %f", m_player.GetPosition().x, m_player.GetPosition().y), 0, 50, 25, BLUE);
             DrawText(TextFormat("FPS: %d", GetFPS()), 0, 90, 25, BLACK);
       EndDrawing();
 }
