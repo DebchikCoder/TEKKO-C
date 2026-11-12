@@ -1,7 +1,7 @@
 #include "headers/Game.hpp"
 #include <raymath.h>
 
-Game::Game() : m_player("assets/Test.png", NUMtoUNIT(15), NUMtoUNIT(12), NUMtoUNIT(12), NUMtoUNIT(9.81)), lvl("assets/Levels/Test/level.json")
+Game::Game() : m_player("assets/Test.png", NUMtoUNIT(15), NUMtoUNIT(12), NUMtoUNIT(12), NUMtoUNIT(18)), lvl("assets/Levels/Test/level.json")
 {
       m_player.SetPosition(lvl.GetPlayerStartPosition().x - (48/2), lvl.GetPlayerStartPosition().y - (78/2));
       m_cam = {0};
@@ -47,6 +47,6 @@ void Game::Update()
             EndMode2D();
             DrawText(TextFormat("player vel: X: %f, Y: %f", m_player.GetVelocity().x, m_player.GetVelocity().y), 0, 30, 25, BLUE);
             DrawText(TextFormat("player pos: X: %f, Y: %f", m_player.GetPosition().x, m_player.GetPosition().y), 0, 50, 25, BLUE);
-            DrawText(TextFormat("FPS: %d", GetFPS()), 0, 90, 25, BLACK);
+            DrawText(TextFormat("FPS: %d", GetFPS()), 0, 90, 25, BLUE);
       EndDrawing();
 }

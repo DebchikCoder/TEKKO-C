@@ -23,8 +23,8 @@ void BackGround::Draw(float scale)
 
 void BackGround::Draw(float scaleX, float scaleY)
 {
-    Rectangle source = {0.0f, 0.0f, (float)m_texture.width, (float)m_texture.height};
-    Rectangle dest = {0.0f, 0.0f, (float)m_texture.width * scaleX, (float)m_texture.height * scaleY};
+    Rectangle source = {m_position.x, m_position.y, (float)m_texture.width, (float)m_texture.height};
+    Rectangle dest = {m_position.x, m_position.y, (float)m_texture.width * scaleX, (float)m_texture.height * scaleY};
 
     DrawTexturePro(m_texture, source, dest, (Vector2){0.0, 0.0}, 0.0, WHITE);
 }
