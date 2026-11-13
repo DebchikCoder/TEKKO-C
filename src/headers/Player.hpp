@@ -14,11 +14,12 @@ constexpr float NUMtoUNIT(float n)
     return n * 16.0f;
 }
 
+constexpr int8_t FIRE_ATTACK = 0;
+constexpr int8_t ELECTRO_ATTACK = 1;
+
 class Player
 {
 private:
-
-      constexpr int8_t FIRE_ATTACK = 0;
       struct slot
       {
             int8_t weapon;
