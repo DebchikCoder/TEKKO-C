@@ -17,11 +17,22 @@ constexpr float NUMtoUNIT(float n)
 class Player
 {
 private:
+
+      constexpr int8_t FIRE_ATTACK = 0;
+      struct slot
+      {
+            int8_t weapon;
+      };
+
+      slot m_weaponSlots[2];
+      int8_t currentSlot;
+
       Texture2D m_texture;
       Vector2 m_position;
       Vector2 m_velocity;
 
-      int8_t jumpCount;
+      int8_t m_jumpCount;
+      int8_t m_slot;
 
       Rectangle m_collider;
       bool isGrounded;
@@ -33,7 +44,6 @@ public:
 
       void SetPosition(float x, float y);
       void SetPosition(Vector2 newPos);
-      void DrawCollisionRect();
       bool CheckCollision(Rectangle& rec);
       Vector2 GetPosition();
       Vector2 GetVelocity();

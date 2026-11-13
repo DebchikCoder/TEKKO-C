@@ -11,7 +11,8 @@ Player::Player(std::string pathToSprite, float acceleration, float decceleration
       m_position = {0, 50};
       m_velocity = {0, 0};
       isGrounded = false;
-      jumpCount = 1;
+      m_jumpCount = 1;
+      currentSlot = 0;
 }
 
 Player::~Player()
@@ -57,8 +58,17 @@ std::unique_ptr<Projectile> Player::Shoot(Camera2D &cam, float speed)
       Vector2 mouseScrPos = GetScreenToWorld2D(GetMousePosition(), cam);
       Vector2 projDir = Vector2Normalize(Vector2Subtract(mouseScrPos, m_position));
       Vector2 projVector = Vector2Scale(projDir, speed);
+      std::unique_ptr<Projectile> Bullet;
 
-      std::unique_ptr<Projectile> Bullet = std::make_unique<Projectile>(m_position, projVector, "assets/Bullet.png", speed, 4, (Vector2){16, 16});
+      if(m_weaponSlots[currentSlot].weapon == 0)
+      {
+            Bullet = std::make_unique<Projectile>(m_position, projVector, "assets/Bullet.png", speed, 3, (Vector2){16, 16});
+      }
+
+      if(m_weaponSlots[currentSlot].weapon == 1)
+      {
+            Bullet = std::make_unique<Projectile>(m_position, projVector, "assets/Electro.png", speed, 3, (Vector2){16, 16});
+      }
 
       return Bullet;
 }
@@ -103,18 +113,47 @@ void Player::Update(Camera2D& cam, std::vector<Rectangle> collisionRecs)
                   m_position.y -= m_velocity.y * GetFrameTime();
                   isGrounded = true;
                   m_velocity.y = 0;
-                  jumpCount = 1;
+                  m_jumpCount = 1;
             }
       }
 
-      if(IsKeyPressed(KEY_SPACE) && isGrounded || IsKeyPressed(KEY_SPACE) && jumpCount > 0)
+      if(IsKeyPressed(KEY_SPACE) && isGrounded || IsKeyPressed(KEY_SPACE) && m_jumpCount > 0)
       {
             m_velocity.y = NUMtoUNIT(-10);
             if(!isGrounded)
             {
-                  jumpCount -= 1;
+                  m_jumpCount -= 1;
                   m_velocity.y = NUMtoUNIT(-10);
             }
+      }
+
+      if(IsKeyPressed(KEY_ONE))
+      {
+            currentSlot = 0;
+      }
+
+      if(IsKeyPressed(KEY_TWO))
+      {
+            currentSlot = 1;
+      }
+
+      if(IsKeyPressed(KEY_Q))
+      {
+            m_weaponSlots[currentSlot].weapon -= 1;
+      }
+
+      if(IsKeyPressed(KEY_E))
+      {
+            m_weaponSlots[currentSlot].weapon += 1;
+      }
+
+      if(m_weaponSlots[currentSlot].weapon > 1)
+      {
+            m_weaponSlots[currentSlot].weapon = 0;
+      }
+      if(m_weaponSlots[currentSlot].weapon < 0)
+      {
+            m_weaponSlots[currentSlot].weapon = 1;
       }
 
       // std::cout << m_velocity.x << "\n";
