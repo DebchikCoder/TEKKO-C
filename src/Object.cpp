@@ -18,6 +18,17 @@ void IObject::Draw()
       DrawTexture(m_texture, static_cast<int>(m_position.x), static_cast<int>(m_position.y), WHITE);
 }
 
+void IObject::CheckCollision(std::vector<Rectangle> recs)
+{
+      for(auto col : recs)
+      {
+            if(CheckCollisionRecs(m_hitBox, col))
+            {
+                  TraceLog(LOG_INFO, "ADD PROPER COLLISION DETECTION");
+            }
+      }
+}
+
 void IObject::Destroy()
 {
       m_isDead = true;

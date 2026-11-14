@@ -9,13 +9,14 @@ Game::Game() : m_player("assets/Test.png", NUMtoUNIT(15), NUMtoUNIT(12), NUMtoUN
 
 void Game::Start()
 {
-      lvl.RegesterObject(std::make_unique<IObject>(Vector2{40, 40}, "assets/Test.png", 40, 40, 80, 80));
+      // lvl.RegesterObject(std::make_unique<IObject>(Vector2{40, -20}, "assets/Test.png", 40, 40, 80, 80));
 }
 
 void Game::Update()
 {
       for(auto& obj : lvl.getObjects())
       {
+            obj->CheckCollision(lvl.GetCollisions());
             obj->Update(GetFrameTime());
       }
       m_player.Update(m_cam, lvl.GetCollisions());
@@ -43,10 +44,7 @@ void Game::Update()
                         obj->Draw();
                   }
                   m_player.Draw();
-                  lvl.DrawDebugRects();
             EndMode2D();
-            DrawText(TextFormat("player vel: X: %f, Y: %f", m_player.GetVelocity().x, m_player.GetVelocity().y), 0, 30, 25, BLUE);
-            DrawText(TextFormat("player pos: X: %f, Y: %f", m_player.GetPosition().x, m_player.GetPosition().y), 0, 50, 25, BLUE);
-            DrawText(TextFormat("FPS: %d", GetFPS()), 0, 90, 25, BLUE);
+            m_player.DrawUI();
       EndDrawing();
 }

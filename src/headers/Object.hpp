@@ -2,6 +2,7 @@
 
 #include <raylib.h>
 #include <string>
+#include <vector>
 
 class IObject
 {
@@ -16,6 +17,7 @@ public:
       IObject(Vector2 position, std::string TexturePath, float BBx, float BBy, float BBw, float BBh);
       virtual void Update(float dt);
       virtual void Draw();
+      virtual void CheckCollision(std::vector<Rectangle> recs);
       void Destroy();
       bool isDead();
       Vector2 getPosition();

@@ -51,4 +51,5 @@ public:
       std::unique_ptr<Projectile> Shoot(Camera2D& cam, float speed);
       void Update(Camera2D& cam, std::vector<Rectangle> collisionRecs);
       void Draw();
+      void DrawUI();
 };

@@ -62,12 +62,12 @@ std::unique_ptr<Projectile> Player::Shoot(Camera2D &cam, float speed)
 
       if(m_weaponSlots[currentSlot].weapon == 0)
       {
-            Bullet = std::make_unique<Projectile>(m_position, projVector, "assets/Bullet.png", speed, 3, (Vector2){16, 16});
+            Bullet = std::make_unique<Projectile>(m_position, projVector, "assets/Bullet.png", speed, 3, (Vector2){m_position.x, m_position.y}, (Vector2){16, 16});
       }
 
       if(m_weaponSlots[currentSlot].weapon == 1)
       {
-            Bullet = std::make_unique<Projectile>(m_position, projVector, "assets/Electro.png", speed, 3, (Vector2){16, 16});
+            Bullet = std::make_unique<Projectile>(m_position, projVector, "assets/Electro.png", speed, 3, (Vector2){m_position.x, m_position.y}, (Vector2){16, 16});
       }
 
       return Bullet;
@@ -127,6 +127,8 @@ void Player::Update(Camera2D& cam, std::vector<Rectangle> collisionRecs)
             }
       }
 
+      //change slot 
+
       if(IsKeyPressed(KEY_ONE))
       {
             currentSlot = 0;
@@ -137,6 +139,7 @@ void Player::Update(Camera2D& cam, std::vector<Rectangle> collisionRecs)
             currentSlot = 1;
       }
 
+      //change weapon
       if(IsKeyPressed(KEY_Q))
       {
             m_weaponSlots[currentSlot].weapon -= 1;
@@ -147,6 +150,7 @@ void Player::Update(Camera2D& cam, std::vector<Rectangle> collisionRecs)
             m_weaponSlots[currentSlot].weapon += 1;
       }
 
+      //limit weapon selection
       if(m_weaponSlots[currentSlot].weapon > 1)
       {
             m_weaponSlots[currentSlot].weapon = 0;
@@ -162,4 +166,10 @@ void Player::Update(Camera2D& cam, std::vector<Rectangle> collisionRecs)
 void Player::Draw()
 {
       DrawTextureV(m_texture, m_position, WHITE);
+}
+
+void Player::DrawUI()
+{
+      DrawText(TextFormat("SLOT 1: %s", m_weaponSlots[0].weapon == 0 ? "FIRE" : "ELECTRICITY"), 0, 10, 25, BLUE);
+      DrawText(TextFormat("SLOT 2: %s", m_weaponSlots[1].weapon == 0 ? "FIRE" : "ELECTRICITY"), 0, 40, 25, BLUE);
 }

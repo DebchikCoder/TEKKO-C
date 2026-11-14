@@ -9,8 +9,8 @@ private:
       float m_LifeTime;
       Vector2 m_Dir;
 public:
-      Projectile(Vector2 startPos, Vector2 directionVector, std::string spriteName, float speed, float lifeTime,Vector2 BBsize);
+      Projectile(Vector2 startPos, Vector2 directionVector, std::string spriteName, float speed, float lifeTime, Vector2 BBpos, Vector2 BBsize);
       void Update(float dt) override;
-      void CheckCollision(Rectangle& rec);
       void Draw() override;
+      void CheckCollision(std::vector<Rectangle> recs) override;
 };
